@@ -3,6 +3,16 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 
 const computers = [
   {
@@ -61,18 +71,38 @@ const computers = [
       power: '150W',
     },
   },
+  {
+    id: 5,
+    name: 'Самый бюджетный ПК',
+    price: '499 999 ₽',
+    imageUrl: 'https://cdn.poehali.dev/projects/0f3766fb-245b-405a-b790-19a44261c00b/files/6a92c949-7dff-49f8-b1c6-21add78434df.jpg',
+    tagline: 'Революционная технология',
+    specs: {
+      cpu: 'Органический процессор 0.0001 GHz',
+      gpu: 'Встроенная графика (крахмал)',
+      ram: '0 МБ (работает на энтузиазме)',
+      storage: '0 ГБ (всё в облаке земли)',
+      power: '5V от USB',
+    },
+  },
 ];
 
 const Index = () => {
   const [scrollY, setScrollY] = useState(0);
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const [showPaymentDialog, setShowPaymentDialog] = useState(false);
   const { toast } = useToast();
 
   const handleOrder = () => {
+    setShowPaymentDialog(true);
+  };
+
+  const handlePaymentChoice = () => {
+    setShowPaymentDialog(false);
     toast({
       variant: 'destructive',
-      title: '❌ У вас недостаточно средств',
-      description: 'Пополните баланс для оформления заказа',
+      title: '❌ Вещи взятые в ипотеку не принимаем',
+      description: 'Попробуйте оплатить чем-то другим',
     });
   };
 
@@ -282,7 +312,9 @@ const Index = () => {
               </a>
               
               <a 
-                href="mailto:info@pcshop.ru" 
+                href="https://mail.ru/" 
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-gray-600 hover:text-[#0EA5E9] transition-colors duration-300 flex items-center gap-2"
               >
                 <Icon name="Mail" size={20} />
@@ -292,6 +324,32 @@ const Index = () => {
           </div>
         </div>
       </footer>
+
+      <AlertDialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Выберите способ оплаты</AlertDialogTitle>
+            <AlertDialogDescription>
+              Как вы хотите оплатить этот прекрасный компьютер?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="flex-col sm:flex-row gap-2">
+            <AlertDialogAction
+              onClick={handlePaymentChoice}
+              className="bg-[#0EA5E9] hover:bg-[#0284C7]"
+            >
+              🚗 Оплатить машиной
+            </AlertDialogAction>
+            <AlertDialogAction
+              onClick={handlePaymentChoice}
+              className="bg-[#0EA5E9] hover:bg-[#0284C7]"
+            >
+              🏠 Оплатить домом
+            </AlertDialogAction>
+            <AlertDialogCancel>Отмена</AlertDialogCancel>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
