@@ -2,62 +2,63 @@ import { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
+import { useToast } from '@/hooks/use-toast';
 
 const computers = [
   {
     id: 1,
-    name: 'Office Pro',
-    price: '45 990 ₽',
-    image: '💼',
-    tagline: 'Для работы и учёбы',
+    name: 'Office Vintage',
+    price: '500 000 ₽',
+    imageUrl: 'https://cdn.poehali.dev/projects/0f3766fb-245b-405a-b790-19a44261c00b/files/3964b2f9-4891-4d94-b58f-cac689080bbf.jpg',
+    tagline: 'Раритет для ценителей',
     specs: {
-      cpu: 'Intel Core i5-12400F',
-      gpu: 'Intel UHD Graphics 730',
-      ram: '16 ГБ DDR4',
-      storage: '512 ГБ NVMe SSD',
-      power: '450W',
+      cpu: 'Intel Pentium 4 2.8GHz',
+      gpu: 'Integrated Graphics 64MB',
+      ram: '512 МБ DDR',
+      storage: '40 ГБ HDD',
+      power: '200W',
     },
   },
   {
     id: 2,
-    name: 'Gaming Start',
-    price: '79 990 ₽',
-    image: '🎮',
-    tagline: 'Игры в Full HD',
+    name: 'Gaming Classic',
+    price: '750 000 ₽',
+    imageUrl: 'https://cdn.poehali.dev/projects/0f3766fb-245b-405a-b790-19a44261c00b/files/b6655c14-a437-4cae-a8a8-802eb01a556c.jpg',
+    tagline: 'Для игр 2005 года',
     specs: {
-      cpu: 'AMD Ryzen 5 5600',
-      gpu: 'NVIDIA RTX 3060 12GB',
-      ram: '16 ГБ DDR4',
-      storage: '1 ТБ NVMe SSD',
-      power: '650W',
+      cpu: 'AMD Athlon 64 X2',
+      gpu: 'NVIDIA GeForce 6600 128MB',
+      ram: '1 ГБ DDR2',
+      storage: '80 ГБ HDD',
+      power: '300W',
     },
   },
   {
     id: 3,
-    name: 'Gaming Pro',
-    price: '129 990 ₽',
-    image: '⚡',
-    tagline: 'Максимум FPS в 2K',
+    name: 'Gaming Retro',
+    price: '999 000 ₽',
+    imageUrl: 'https://cdn.poehali.dev/projects/0f3766fb-245b-405a-b790-19a44261c00b/files/6cc04074-8e29-4c3a-9467-e337dc52aff9.jpg',
+    tagline: 'Легендарная классика',
     specs: {
-      cpu: 'Intel Core i7-13700KF',
-      gpu: 'NVIDIA RTX 4070 12GB',
-      ram: '32 ГБ DDR5',
-      storage: '2 ТБ NVMe SSD',
-      power: '850W',
+      cpu: 'Intel Core 2 Duo E6400',
+      gpu: 'ATI Radeon X1950 Pro 256MB',
+      ram: '2 ГБ DDR2',
+      storage: '160 ГБ HDD',
+      power: '350W',
     },
   },
   {
     id: 4,
-    name: 'Creator Ultra',
-    price: '189 990 ₽',
-    image: '🚀',
-    tagline: 'Для создателей контента',
+    name: 'Creator Antique',
+    price: '1 500 000 ₽',
+    imageUrl: 'https://cdn.poehali.dev/projects/0f3766fb-245b-405a-b790-19a44261c00b/files/a70de961-6a5b-4cd6-83f5-221948d39d6f.jpg',
+    tagline: 'Музейный экспонат',
     specs: {
-      cpu: 'AMD Ryzen 9 7950X',
-      gpu: 'NVIDIA RTX 4080 16GB',
-      ram: '64 ГБ DDR5',
-      storage: '4 ТБ NVMe SSD',
-      power: '1000W',
+      cpu: 'Intel Pentium III 1.0GHz',
+      gpu: 'NVIDIA Riva TNT2 32MB',
+      ram: '256 МБ SDRAM',
+      storage: '20 ГБ HDD',
+      power: '150W',
     },
   },
 ];
@@ -65,6 +66,15 @@ const computers = [
 const Index = () => {
   const [scrollY, setScrollY] = useState(0);
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const { toast } = useToast();
+
+  const handleOrder = () => {
+    toast({
+      variant: 'destructive',
+      title: '❌ У вас недостаточно средств',
+      description: 'Пополните баланс для оформления заказа',
+    });
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -127,6 +137,7 @@ const Index = () => {
               size="lg" 
               variant="outline"
               className="px-8 py-6 text-lg rounded-xl border-2 hover:bg-gray-50 transition-all duration-300"
+              onClick={() => window.open('https://ru.wiktionary.org/wiki/%D0%B1%D0%BE%D0%BB%D1%8C%D1%88%D0%B5', '_blank')}
             >
               Узнать больше
             </Button>
@@ -170,8 +181,12 @@ const Index = () => {
                 <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 
                 <div className="p-6 relative z-10">
-                  <div className="text-6xl mb-4 text-center transition-transform duration-500 group-hover:scale-110">
-                    {pc.image}
+                  <div className="mb-4 transition-transform duration-500 group-hover:scale-105">
+                    <img 
+                      src={pc.imageUrl} 
+                      alt={pc.name}
+                      className="w-full h-48 object-cover rounded-lg"
+                    />
                   </div>
                   
                   <h3 className="text-2xl font-bold mb-2 text-[#1A1F2C]">{pc.name}</h3>
@@ -227,6 +242,7 @@ const Index = () => {
 
                     <Button 
                       className="w-full mt-6 bg-[#0EA5E9] hover:bg-[#0284C7] text-white rounded-xl transition-all duration-300"
+                      onClick={handleOrder}
                     >
                       Заказать
                       <Icon name="ShoppingCart" size={18} className="ml-2" />
@@ -240,8 +256,40 @@ const Index = () => {
       </section>
 
       <footer className="py-12 border-t border-gray-200 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <p className="text-gray-600">© 2024 PC Shop. Лучшие компьютеры по доступным ценам</p>
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+            <p className="text-gray-600">© 2024 PC Shop. Лучшие компьютеры по доступным ценам</p>
+            
+            <div className="flex gap-6">
+              <a 
+                href="https://t.me/Visha4k" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gray-600 hover:text-[#0EA5E9] transition-colors duration-300 flex items-center gap-2"
+              >
+                <Icon name="Send" size={20} />
+                <span>Telegram</span>
+              </a>
+              
+              <a 
+                href="https://youtube.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gray-600 hover:text-[#0EA5E9] transition-colors duration-300 flex items-center gap-2"
+              >
+                <Icon name="Youtube" size={20} />
+                <span>YouTube</span>
+              </a>
+              
+              <a 
+                href="mailto:info@pcshop.ru" 
+                className="text-gray-600 hover:text-[#0EA5E9] transition-colors duration-300 flex items-center gap-2"
+              >
+                <Icon name="Mail" size={20} />
+                <span>Email</span>
+              </a>
+            </div>
+          </div>
         </div>
       </footer>
     </div>
